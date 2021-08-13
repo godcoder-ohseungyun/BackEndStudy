@@ -10,7 +10,6 @@ import java.util.Map;
 @Repository //저장소로 지정
 //컴포넌트 스캔 기본 대상: 저장소 계층에서 사용하는 어노테이션
 //컴포넌트 에노테이션을 포함한다.
-
 public class ItemRepository {
     /**
      * default 싱글톤: 동시에 접근하는 경우 에러가 날수있다

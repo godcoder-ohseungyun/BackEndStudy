@@ -16,7 +16,7 @@ import java.util.List;
  * 다형성에 맞게 설계 스프링핵심원리.md
  * Model: Controller 에서 생성된 데이터를 담아서 View 로 전달할 때 사용하는 객체
  */
-@Controller //스프링 빈 타겟
+@Controller //스프링 빈 타겟 //**컴포넌트 스캔 기본 대상**
 @RequestMapping("/basic/items") //요청 맵핑
 @RequiredArgsConstructor //final 맴버변수 생성자 자동생성!
 public class BasicItemController {

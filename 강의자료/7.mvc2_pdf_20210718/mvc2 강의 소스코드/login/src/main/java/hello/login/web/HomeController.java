@@ -104,6 +104,6 @@ public class HomeController {
 
         //세션이 유지되면 로그인으로 이동
         model.addAttribute("member", loginMember);
-        return "loginHome";
+        return "loginHome"; //로그인 사용자 전용화면
     }
 }

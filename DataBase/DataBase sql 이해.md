@@ -2,6 +2,41 @@
 
 ---
 
+## [목차]
+
+[기본쿼리문](#기본쿼리문)
+
+>  기본 조회 /삽입 /수정 /삭제
+
+[조건문](#조건식)
+
+> 조회시 다양한 조건 부여
+
+[조인연산](#조인연산)
+
+[LIKE](#LIKE)
+
+> 값 포함 여부 필터링
+
+[변환함수](#변환함수)
+
+> 데이터들을 변환하는 함수들
+> 데이터 길이반환, **대소문자 변환**
+> **문자포함여부** , 날짜형식
+> 문자열 자르기
+
+[CASE](#CASE)
+
+>조건문
+
+[GROUP_BY](#GROUP_BY)
+
+> 데이터를 **특정 그룹군**으로 **묶어서 반환**
+> COUNT MAX SUM 등 **그룹함수** 존재
+> HAVING SUM
+
+
+
 ### **DDL DML DCL**
 
 <img src="https://user-images.githubusercontent.com/68331041/135019757-25b041d3-6170-48f3-8e21-e6bfcdbc676f.png" alt="image" style="zoom: 67%;" />
@@ -12,21 +47,7 @@
 
 
 
-### 쿼리문
-
-+ **테이블 생성 /조회 /삽입 /수정 /삭제**
-
-https://lcs1245.tistory.com/4
-
-
-
-### 조인
-
-+ **LEFT JOIN / RIGHT JOIN / INNER JOIN / FULL JOIN**
-
-https://yoo-hyeok.tistory.com/98
-
-
+## 사전지식
 
 ### sql에서 외래키란?
 
@@ -42,4 +63,157 @@ https://yoo-hyeok.tistory.com/98
 
 + 단, 데이터베이스의 구조 파악과 더 빠른 연산의 처리를 위해 **쿼리문도 알아둘 필요가 있다.** 
 + 쿼리문은 ORM에 비해 변환과정이 없어 더 빠른 속도를 가지고있다.
+
+# 기본쿼리문
+
+---
+
++ **이 글은 ORACLE SQL 방언을 기준으로 작성되어있다.**
++ ['프로그래밍/SQL' 카테고리의 글 목록 (tistory.com)](https://lcs1245.tistory.com/category/프로그래밍/SQL)
++ 문자열은 ' '를 사용한다.
++ 행 열은 0 부터 시작
+
+
+
+### 기본 쿼리문
+
++ **테이블 기본 조회 /삽입 /수정 /삭제**
+
+<img src="https://user-images.githubusercontent.com/68331041/135194144-e1a1d757-390b-4e30-838a-692375d61a9f.png" alt="image" style="zoom: 67%;" />
+
+<img src="https://user-images.githubusercontent.com/68331041/135194163-948b203c-f520-4e49-bf31-33a0cfd558c6.png" alt="image" style="zoom:67%;" />
+
+<img src="https://user-images.githubusercontent.com/68331041/135194176-0458356d-e019-4d99-aa3f-8a6d6b1c2663.png" alt="image" style="zoom:67%;" />
+
+
+
+### 조건식
+
++ **BETWEEN & NOT BETWEEN**
+
+> 범위 검색
+>
+> LIMIT나 TOP을 통해 범위 제어도 가능
+
+<img src="C:\Users\afrad\AppData\Roaming\Typora\typora-user-images\image-20210929114630059.png" alt="image-20210929114630059" style="zoom: 67%;" />
+
++ **IN & NOT IN**
+
+> 필터 검색
+
+<img src="C:\Users\afrad\AppData\Roaming\Typora\typora-user-images\image-20210929114724002.png" alt="image-20210929114724002" style="zoom: 67%;" />
+
++ **REPLICATE**
+
+  <img src="https://user-images.githubusercontent.com/68331041/135194957-3cb2de12-830e-402c-a297-6b007070f45a.png" alt="image" style="zoom: 67%;" />
+
+<img src="https://user-images.githubusercontent.com/68331041/135194865-4bf9ec95-3ebf-4c8f-9eed-3eca379fbf77.png" alt="image" style="zoom: 67%;" />
+
++ **요소 합치기 CONCAT**
+
+<img src="https://user-images.githubusercontent.com/68331041/135195182-216975a0-4b40-4162-949a-02eb220bd87c.png" alt="image" style="zoom: 67%;" />
+
++ **날짜 계산 함수**
+
+<img src="C:\Users\afrad\AppData\Roaming\Typora\typora-user-images\image-20210929115635903.png" alt="image-20210929115635903" style="zoom: 67%;" />
+
+<img src="https://user-images.githubusercontent.com/68331041/135206489-145e014e-2320-406e-9cce-378e082d49a1.png" alt="image" style="zoom:67%;" />
+
++ **NULL 처리**
+
+<img src="https://user-images.githubusercontent.com/68331041/135195573-25e4a75b-d144-4f90-8d78-6ff389d93342.png" alt="image" style="zoom:67%;" />
+
+
+
+### 조인연산
+
++ **LEFT JOIN / RIGHT JOIN / INNER JOIN / FULL JOIN /SELF JOIN **
+
+  [SQL JOIN - INNER JOIN / OUTER JOIN / LEFT JOIN / RIGHT JOIN / SELF JOIN (tistory.com)](https://lcs1245.tistory.com/entry/SQL-JOIN-INNER-JOIN-OUTER-JOIN-LEFT-JOIN-RIGHT-JOIN-SELF-JOIN?category=348747)
+
+~~~sql
+<left join>
+select * from a left join b on a.id = b.id
+/**
+a는 모두 출력 + b가 연결된 경우 함께 리턴 안된경우는 null로 리턴
+right는 반대
+**/
+
+<inner join>
+select * from a inner join b on a.id = b.id
+/**
+a와 b가 연결된 결과만 리턴
+**/
+
+
+<full join>
+/**
+양측 다 연결관계 상관없이 풀로 리턴
+**/
+
+<self join>
+select * from a a join a b on a.manager = b.id
+/**
+a가 a에 조인하는 경우
+a를 a,b로 칭한다
+**/
+
+~~~
+
+
+
+## LIKE
+
+<img src="https://user-images.githubusercontent.com/68331041/135199796-ce3eb41a-fe97-4468-b242-412764fd2a4b.png" alt="image" style="zoom:67%;" />
+
+<img src="https://user-images.githubusercontent.com/68331041/135199824-fc512564-1b9f-42e7-b8d0-41ad38a18241.png" alt="image" style="zoom:67%;" />
+
+## 변환함수
+
++ 데이터의 길이를 구하는 함수
+
+~~~SQL
+/*LENGTH: 바이트 수를 읽어서 가져옴*/
+SELECT LENGTH(NAME) FROM A;
+
+/*CHAR_LENGTH: 문자 수를 읽어서 가져옴*/
+SELECT CHAR_LENGTH(NAME) FROM A;
+
+/*응용: NAME 컬럼이 8 이상인 ROW 리턴*/
+SELECT * FROM A WHERE CHAR_LENGTH(NAME) >=8;
+
+/*대소문자 변환 UPPER LOWER: 대소문자 검색 모두 지원하도록 할수있음*/
+SELECT * FROM A WHERE UPPER(NAME) = 'A' AND NAME ='a'
+
+/*현재시간 조회 함수*/
+GETDATE();
+
+/*문자포함여부: E-MAIL 칼럼에서 NAVER라는 글자가 포함된 결과 리턴*/
+SELECT NAME FROM TABLE WHERE CHARINDEX('NAVER',E-MAIL)>0  /*TRUE = 1*/
+
+/*날짜 형 변환 & 문자열 자르기 함수도 있다.*/
+~~~
+
+
+
+## CASE
+
++ 조건문
+
+![image](https://user-images.githubusercontent.com/68331041/135206207-a3139bf1-bab5-40b7-9371-ff7e5b9431e6.png)
+
+**TABLE의 모든 칼럼을 리턴하고 IDENTITY라는 칼럼을 생성해 조건문을 이행**
+
+![image](https://user-images.githubusercontent.com/68331041/135206254-f57f3fba-d27f-4bf8-9314-76d7822fdf1f.png)
+
+
+
+## GROUP BY
+
+<img src="https://user-images.githubusercontent.com/68331041/135206957-adb0f850-c27c-4116-baf1-0514dc7f994f.png" alt="image" style="zoom:67%;" />
+
+~~~SQL
+SELECT COMPANY,SUM(SALARY) FROM KOREACORP GROUP BY COMPANY HAVING SUM(SALARY)>=1200;
+/*한국회사들 테이블에서 회사별로 급여의 총합이 1200이상인 회사와 합계 급여 칼럼을 보고싶다*/
+~~~
 

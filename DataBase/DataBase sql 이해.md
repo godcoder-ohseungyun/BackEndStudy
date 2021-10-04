@@ -273,4 +273,66 @@ SELECT COMPANY,SUM(SALARY) FROM KOREACORP GROUP BY COMPANY HAVING SUM(SALARY)>=1
 
   
 
-  
+
+
+
+# 실전 변수
+
+---
+
+
+
+## 제약조건 
+
+
+
++ 기본키 설정 1줄로
+
+~~~sql
+CONSTRAINT F_PK PRIMARY KEY (FID,WID), -- FID와 WID를 PK로
+~~~
+
+
+
++ 외래키는 연관테이블 PK에 따라 받는법이 다름
+
+~~~SQL
+CONSTRAINT F_W_FK
+		FOREIGN KEY (WID) REFERENCES Worker(WID) --  연관테이블이 단일 PK인 경우
+		
+CONSTRAINT FM_F_FK
+		FOREIGN KEY (FID,WID) REFERENCES FAMILY(FID,WID) --  연관테이블이 복합 PK인 경우
+~~~
+
+
+
++ 복합 키를 갖는 테이블로부터 외래키를 받아올때 외래키도 복합으로 받아야한다.
+
+~~~SQL
+-- create FAMILY
+CREATE TABLE FAMILY(
+	FID   CHAR(4) NOT NULL, --PK
+	WID   CHAR(4) NOT NULL, --FK,PK
+	FNUMBER     VARCHAR(25) NOT NULL, 
+
+	CONSTRAINT F_PK
+		PRIMARY KEY (FID,WID), -- 복합PK 
+	CONSTRAINT F_W_FK
+		FOREIGN KEY (WID) REFERENCES Worker(WID) -- 외래키 
+	);
+-- create FAMILY
+CREATE TABLE FMEMBER(
+	FID   CHAR(4) NOT NULL, --FK,PK
+	WID   CHAR(4) NOT NULL, --FK,PK
+	FMEMBER    VARCHAR(25) NOT NULL,--PK 
+
+	CONSTRAINT FM_PK
+		PRIMARY KEY (FID,WID,FMEMBER), -- 복합 PK 
+	
+	CONSTRAINT FMEMBER_MEMBER_CHK
+           CHECK (FMEMBER IN ('M','F','B','S')),
+	CONSTRAINT FM_F_FK
+		FOREIGN KEY (FID,WID) REFERENCES FAMILY(FID,WID), -- 연관엔티티 FAMILY 가 복합 PK를 가지고 있음으로 외래키도 그에 따라 복합으로 받아야한다.
+	);
+~~~
+

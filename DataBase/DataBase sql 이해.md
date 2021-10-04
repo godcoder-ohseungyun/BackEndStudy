@@ -217,3 +217,60 @@ SELECT COMPANY,SUM(SALARY) FROM KOREACORP GROUP BY COMPANY HAVING SUM(SALARY)>=1
 /*한국회사들 테이블에서 회사별로 급여의 총합이 1200이상인 회사와 합계 급여 칼럼을 보고싶다*/
 ~~~
 
+
+
+
+
+## 집합연산
+
+
+
+### UNION & UNIONALL(합집합) 
+
++ Union은 두 쿼리의 결과의 중복값은 제거하고 보여줌
+
++ UnionAll은 중복된값도 전부 다 보여줌
+
+  ~~~
+  Union 사용시 주의점
+  
+  ☞ 칼럼명이 같아야한다. (같지않을경우 AS를 사용하여 같게 만들어주면 됩니다.)
+  
+  ☞ 칼럼별 데이터타입이 같아야한다.
+  ~~~
+
+  ~~~SQL
+  SELECT * FROM EX_TABLE1
+  Union/UnionAll
+  SELECT * FROM EX_TABLE2
+  -- 테이블A와 테이블B의 모든 데이터를 출력한다.
+  -- 조회하려는 컬럼의 수는 일치해야 한다.
+  -- UNION은 중복된 행을 하나의 행으로 출력하고, UNION ALL은 중복된 행을 그대로 출력한다.
+  -- 즉, 중복을 제거하며 결과를 가져오는 UNION보다는 UNION ALL의 속도가 더 빠르다.
+  ~~~
+
+  
+
+  ###  **INTERSECT(교집합)**
+
+  ~~~SQL
+  SELECT * FROM 테이블A 
+  INTERSECT 
+  SELECT * FROM 테이블B
+  -- 일치하는 데이터만 추출
+  ~~~
+
+  
+
+  ### EXCEPT(차집합)
+
+  ~~~SQL
+  SELECT * FROM 테이블A
+  EXCEPT
+  SELECT * FROM 테이블B
+  -- 테이블A에 있는 데이터에서 테이블B와 중복을 제외한 데이터를 출력한다.
+  ~~~
+
+  
+
+  

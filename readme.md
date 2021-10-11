@@ -6,7 +6,7 @@
 
 ## 폴더
 
-**[DataBase](#https://github.com/godcoder-ohseungyun/BackEndStudy/tree/master/DataBase)**
+**[DataBase](https://github.com/godcoder-ohseungyun/BackEndStudy/tree/master/DataBase)**
 
 > **사용쿼리:** MSSQL 
 

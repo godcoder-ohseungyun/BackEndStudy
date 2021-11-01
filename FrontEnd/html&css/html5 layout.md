@@ -614,7 +614,7 @@
 
 
 
-+ **[중요]CSS 레이아웃**
+## **[중요]CSS 레이아웃 배치** 
 
 > #### 1.**레이아웃 기초** 
 >
@@ -818,7 +818,89 @@
 > > > }
 > > > ~~~
 >
+> + #### **반응형 웹**
+>
+> > **데스크톱, 태블릿PC, 스마트폰에 맞게 디자인이 자동으로 반응해서 변경되는 웹 페이지**
+> >
+> > 
+> >
+> > #### 1. 뷰포트
+> >
+> > > meta 태그로 웹 정보를 정의할수있음
+> >
+> > ~~~html
+> > <meta name="title" content="ITCookbook HTML5 프로그래밍을 위한 페이지">\
+> > <meta name="description" content="meta 태그의 title 속성과 description 속성입니다.">
+> > ~~~
+> >
+> > ![image](https://user-images.githubusercontent.com/68331041/139611546-e0e7df7d-259a-4cfe-bb49-360295c3b1bd.png)
+> >
+> > 
+> >
+> > **뷰포트 메타 테그**
+> >
+> > **<img src="https://user-images.githubusercontent.com/68331041/139611673-5a2af6c2-6c4b-40c7-b0ef-e22ea9a3450e.png" alt="image" style="zoom:67%;" />**
+> >
+> > > **content="뷰포트 메타테그"**
+> >
+> > **<img src="https://user-images.githubusercontent.com/68331041/139611688-2bb2de07-04b6-49ae-9ac4-6230ee671806.png" alt="image" style="zoom:67%;" />**
+> >
+> > > 일부 브라우저는 **일부 뷰포트 메타테그를 인식하지 못하는 경우**가 있다.
+> > >
+> > > ~~~html
+> > > <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+> > > <!--이와 같이 확대 및 축소 가능 여부를 no로 설정했어도 최소 축소비율과 최대 확대 비율을 또 명시하는 이유는 일부 브라우저에서 user-scalable을 인식할수 없는 경우가 있기때문에 추가로 조치를 취해주는것-->
+> > > ~~~
+
+
+
+## [중요] 미디어쿼리
+
+> 미디어 쿼리를 통해 특정 상태의 규칙을 정의할수있다.
+
+~~~css
+/*내부css: @media규칙   */
+@media (<미디어 쿼리>) {
+    <css code>
+}
+
+/*외부css: @media속성   */
+<link rel="stylesheet" href="파일.css" media="<미디어쿼리>">
+~~~
+
+> **@media규칙**
+>
+> > <img src="https://user-images.githubusercontent.com/68331041/139612903-ef88bb6c-ae16-4538-9186-ba68669d8f45.png" alt="image" style="zoom:67%;" />.
+> >
+> > 스크린: red     인쇄시: green
+>
+> **@media속성**
+>
+> >  <img src="https://user-images.githubusercontent.com/68331041/139613016-ab246d50-3deb-406b-b750-babf87d4fa06.png" alt="image" style="zoom:67%;" />
+> >
+> > media 속성을 사용하여 외부 css를 불러와 위와 같은 결과를 만들수있다.
+>
 > 
+>
+> **적용가능한 미디어 타입**
+>
+> <img src="C:\Users\afrad\AppData\Roaming\Typora\typora-user-images\image-20211101112635473.png" alt="image-20211101112635473" style="zoom:67%;" />.
+>
+> **적용가능한 미디어 특징**
+>
+> <img src="https://user-images.githubusercontent.com/68331041/139613231-0be6d92c-f36e-4375-8e37-0a7a096b9484.png" alt="image" style="zoom:67%;" />.
+>
+> > and 연산자로 조건 결합가능
+>
+> #### **미디어 타입과 미디어 특징을 사용하여 반응형 웹을 설계할수있다.**
+>
+> ![image](https://user-images.githubusercontent.com/68331041/139613424-778c4d8f-ab58-4657-8eca-bf43e345ee04.png)
+>
+> 
+
+
+
+## 레이아웃 배치와 미디어쿼리를 활용하여 반응형 웹 설계가 가능하다
 
 
 

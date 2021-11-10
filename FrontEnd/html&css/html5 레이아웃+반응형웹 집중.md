@@ -4,3 +4,7 @@
 
 > overflow,display,positon,float
 
+
+
+HTML 과 BODY의 height는 요소길이에 맞춰 가변한다.
+

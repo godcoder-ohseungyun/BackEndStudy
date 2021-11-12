@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/style.css"> <!--왜 src는 안돼는거지?-->
+</head>
+<body>
+    <div class="wrapper">
+        <div class="user-container">
+            <label for="nickname">사용자</label>
+            <input type="text" id="nickname">
+        </div>
+        <div class="display-container">
+            <ul class="chatting-list">
+            
+            </ul>
+        </div>
+        <div class="input-container">
+            <span>
+                <input type="text" class="chatting-input">
+                <button class="send-button">전송</button>
+            </span>
+        </div>
+    </div>
+
+
+
+    <script src="/socket.io/socket.io.js">
+        //node_modules에 있는 soket.io/socket.io.js 파일을 로드
+    </script>
+
+    <script src="js/chat.js"> //chat.js 불러오기
+    </script>
+</body>
+</html>

@@ -1,10 +1,12 @@
-# MVC HTTP 데이터 처리
+# MVC HTTP 요청데이터 처리
 
 ---
 
 컨트롤러에서 맵핑을 통하여 HTTP요청을 받아왔으면 HTTP에 담긴 데이터들을 다룰수 있어야한다.
 
-스프링은 HTTP 조회에 사용되었던 서블릿의 기능을 더 효율적이고 간편하게 만들어 HTTP 데이터들을 조회 및 사용할수있다.
+**스프링은 에너테이션을 활용해** HTTP 조회에 사용되었던 **서블릿의 기능을 더 효율적이고 간편하게 만들어 HTTP 데이터들을 조회 및 사용할수있다.**
+
+> 내부적으론 서블릿으로 동작하고있다.
 
 
 
@@ -184,7 +186,7 @@ public class Member {
 
 ### Json 처럼 HTTP Message body에 데이터가 직접 담겨서 오는 경우는 @RequestParam , @ModelAttribute 를 사용할 수 없다.
 
-> 단, HTML Form 형식으로 POST되는 경우는 쿼리파라미터로 인정된다.
+> 단, HTML Form 형식으로 POST되는 경우는 body에 담겨오지만 쿼리파라미터로 인정된다.
 
 
 
@@ -239,19 +241,51 @@ public HttpEntity<String> requestBodyStringV3(HttpEntity<String> httpEntity) {
 
 
 
+더 편리하게 사용하기위해 스프링은 @RequestBody 라는 에너테이션을 제공한다.
 
 
 
+**@RequestBody 사용**
+
+~~~java
+/**
+ * @RequestBody
+ * - 메시지 바디 정보를 직접 조회(@RequestParam X, @ModelAttribute X)
+ * - HttpMessageConverter 사용 -> StringHttpMessageConverter 적용
+ *
+ * @ResponseBody
+ * - 메시지 바디 정보 직접 반환(view 조회X)
+ * - HttpMessageConverter 사용 -> StringHttpMessageConverter 적용
+ */
+@ResponseBody
+@PostMapping("/request-body-string-v4")
+public String requestBodyStringV4(@RequestBody String messageBody) {
+	  log.info("messageBody={}", messageBody);
+ 	  return "ok";
+}
+~~~
+
+HTTP body를 직접 조회하여 Json 데이터를 불러온다.
+
+@RequestHeader를 이용하면 HTTP header를 조회한다.
 
 
 
+### @ModelAttribute 처럼 json 통신도 파라미터로받지 않고 바로  Serialize (객체화) 해서 사용할수도있다.
 
+> ResponseBody로 변환한 객체를 json으로  Deserialize 하여 응답할수있다.
 
+~~~java
+/*
+@RequestBody 요청: JSON 요청 > HTTP 메시지 컨버터 > 객체
 
-
-
-
-
-
-
+@ResponseBody 응답: 객체 > HTTP  메시지 컨버터 > JSON 응답
+*/
+@ResponseBody
+@PostMapping("/request-body-json-v5")
+public HelloData requestBodyJsonV5(@RequestBody HelloData data) { //요청 json을 객체에 바로 담음
+ log.info("username={}, age={}", data.getUsername(), data.getAge()); //활용
+ return data; //객체 return: ResponseBody를 사용하여 객체를 json으로 변환하여 응답해줌
+}
+~~~
 

@@ -1,0 +1,68 @@
+a { text-decoration: none; }
+
+li { list-style: none;}
+
+* {
+    margin:0;
+    padding:0;
+}
+
+html,body{
+    height:100%;
+    width: 100%;
+}
+
+#page-wrapper{
+    height: 100%;
+    width: 100%;
+}
+
+header {
+    height: 10%;
+    width: 100%;
+    background-color: black;
+    position:relative; /*부모 기준으로 자손 absoulte좌표 설정: 안하면 전체 크기 기준*/
+}
+
+/*요소 중앙배치*/
+header > img {
+    position:absolute; /*부모 relative*/
+    top:50%; left:50%;
+    height: 30px;
+    width: 30px;
+    margin: -15px 0 -15px 0;
+}
+
+nav {
+    height: 10%;
+    width: 100%;
+    background-color:whitesmoke;
+}
+
+
+nav div{
+    float: left; /*태그의 성질(block,inline)을 유지한채 배치*/
+    margin: 20px 30px; /*<상하> <좌우>*/
+}
+
+
+#content {
+    height: 80%;
+    width: 100%;
+}
+
+#content > section{
+    float:left;
+    background-color:#b2c7d9;
+    width:80%;
+    height:100%;
+}
+
+#content > aside {
+    float:right;
+    background-color: cadetblue;
+    width:20%;
+    height:100%;
+    text-align: center;
+}
+

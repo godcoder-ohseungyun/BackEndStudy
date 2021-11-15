@@ -5,28 +5,59 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="css/style.css"> <!--왜 src는 안돼는거지?-->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/simantic.css"> 
 </head>
 <body>
-    <div class="wrapper">
-        <div class="user-container">
-            <label for="nickname">사용자</label>
-            <input type="text" id="nickname">
+
+    <!-- 전체를 감싸는 태그 -->
+    <div id="page-wrapper">
+
+        <!-- 헤더 -->
+        <header id="main-header">
+            <img src="image/socketimage.PNG">
+        </header>
+
+        <!-- 네비게이션 -->
+        <nav id="main-navigation">
+            <div> Welcome! this is Oh Seung Yun's free web SocketServer</div>
+        </nav>
+
+    
+
+        <!-- 본문 -->
+        <div id="content">
+            <!-- 본문 좌측-->
+            <section id="main-section">
+                <div class="wrapper">
+                    <div class="user-container">
+                        <label for="nickname">NickName</label>
+                        <input type="text" id="nickname">
+                    </div>
+                    <div class="display-container">
+                        <ul class="chatting-list">
+                        
+                        </ul>
+                    </div>
+                    <div class="input-container">
+                        <span>
+                            <input type="text" class="chatting-input">
+                            <button class="send-button">send</button>
+                        </span>
+                    </div>
+                </div>
+                         
+            </section>
+            <!-- 본문 우측(광고) -->
+            <aside id="main-aside">
+                <br><br><br><br><br><br><br><br><br>
+                광고 배너
+            </aside>
         </div>
-        <div class="display-container">
-            <ul class="chatting-list">
-            
-            </ul>
-        </div>
-        <div class="input-container">
-            <span>
-                <input type="text" class="chatting-input">
-                <button class="send-button">전송</button>
-            </span>
-        </div>
+
+    
     </div>
-
-
+    
 
     <script src="/socket.io/socket.io.js">
         //node_modules에 있는 soket.io/socket.io.js 파일을 로드

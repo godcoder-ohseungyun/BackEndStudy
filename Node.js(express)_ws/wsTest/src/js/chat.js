@@ -46,9 +46,6 @@ sendButton.addEventListener("click",()=>{ //버튼 클릭 이밴트 발생시 �
 })
 
 
-
-
-
 //server -> client
 socket.on("chatting",(param)=>{
     const {name,msg,time} = param; //param parsing data 분리
@@ -70,7 +67,7 @@ function LiModel(name,msg,time){
 
         const dom = `<span class="profile">
         <span class="user">${this.name}</span>
-        <img class="image" src="" alt="any">
+        <img class="image" src="/image/human.PNG" alt="any">
         </span>
         <span class="message">${this.msg}</span>
         <span class="time">${this.time}</span>`;

@@ -22,16 +22,7 @@ const chatInput = document.querySelector(".chatting-input");
 const sendButton = document.querySelector(".send-button");
 const displayContainer = document.querySelector(".display-container");
 
-
-
-chatInput.addEventListener("keypress",(event)=>{
-    //enter이면
-    if(event.keyCode === 13){
-        send();
-        chatInput.value = "" //입력창 초기화
-    }
-})
-
+/* c -> s */
 function send(){
     const param = { //json object
         name: nickname.value,
@@ -39,6 +30,15 @@ function send(){
     }
     socket.emit("chatting",param); //서버에 객체 전송
 }
+
+/* 이밴트 핸들러 */
+chatInput.addEventListener("keypress",(event)=>{
+    //enter이면
+    if(event.keyCode === 13){
+        send();
+        chatInput.value = "" //입력창 초기화
+    }
+})
 
 sendButton.addEventListener("click",()=>{ //버튼 클릭 이밴트 발생시 아래 펑션 실행 html -> server
     send();
@@ -49,13 +49,12 @@ sendButton.addEventListener("click",()=>{ //버튼 클릭 이밴트 발생시 �
 //server -> client
 socket.on("chatting",(param)=>{
     const {name,msg,time} = param; //param parsing data 분리
-    const item = new LiModel(name,msg,time);
-    //const item = new LiModel(param.name,param.msg,param.time);
+    const item = new Li(name,msg,time);
     item.makeLi();
     displayContainer.scrollTo(0,displayContainer.scrollHeight);
 })
 
-function LiModel(name,msg,time){
+function Li(name,msg,time){
     this.name = name;
     this.msg = msg;
     this.time = time;

@@ -34,7 +34,7 @@
 
 **[WebSocket](https://github.com/godcoder-ohseungyun/BackEndStudy/tree/master/Node.js(express)_ws)**
 
-> **ocket Protocol 실시간 채팅 구현**
+> **Socket Protocol 실시간 채팅 구현**
 
 
 **추가예정**

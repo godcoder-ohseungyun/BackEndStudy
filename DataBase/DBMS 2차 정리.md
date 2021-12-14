@@ -154,8 +154,6 @@ DROP PROCEDURE Schema_Name.Procedure_Name
 > 
 >
 > **Iogon triggers: ** LOGON 이밴트에 발동합니다.  사용자 세션이 설정될 때 발생
->
-> 
 
 
 

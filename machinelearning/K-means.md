@@ -118,7 +118,7 @@ step 3에서 했던 방법과 똑같이 시행하며, 더 이상 중심점의 �
 
 ### 실습
 
-
+[실습정리문서링크](https://github.com/godcoder-ohseungyun/BackEndStudy/blob/master/machinelearning/kmean.ipynb)
 
 
 

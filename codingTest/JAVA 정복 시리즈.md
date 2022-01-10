@@ -1,4 +1,16 @@
-# [자바 정복 시리즈] java.lang
+# [자바 정복 시리즈] 객체지향
+
+---
+
+ 자바가 객체로 다 만드는 이유? 
+
+String은 자바에서는 객체타입이다.
+
+각 객체에 맞게 메서드등 요소를 변경하고 컨트롤할수있어서 객체지향의 이점
+
+
+
+# [자바 정복 시리즈] java.lang 패키지
 
 ----
 
@@ -6,7 +18,7 @@ java.lang 패키지는 자바프로그래밍에 기본이 되는 클래스들을
 
 
 
-java.lang.Object , java.lang.String 등등
++ **Object , String, StringBuffer,StringBuilder , Math,Wrapper 등 핵심 클래스들이 존재한다..**
 
 
 
@@ -15,6 +27,8 @@ java.lang.Object , java.lang.String 등등
 모든 자바 클래스들의 최고 조상으로 Oject class가 정의하는 메서드는 모든 클래스들이 사용할수있다.
 
 > 필요시 재정의 해서 사용
+
+`java.util.Objects` 라는 보조 클래스가 존재한다.
 
 
 
@@ -38,7 +52,7 @@ java.lang.Object , java.lang.String 등등
 
 
 
-**Object class 메서드들의 일부는 목적에 따라 오버라이드가 필요한 경우가 있다.**
+**`Object class` 메서드들의 일부는 목적에 따라 오버라이드가 필요한 경우가 있다.**
 
 
 
@@ -159,15 +173,78 @@ java.lang.Object , java.lang.String 등등
 
 ## String Class
 
-자바가 객체로 다 만드는 이유? 
+String은 문자열을 다루는 클래스이다.
 
-String은 자바에서는 객체타입이다.
+"+" 연산자를 수행할 경우 새로운 인스턴스를 만들기 때문에 별도의 저장공간과 주소가 할당된다.
 
-각 객체에 맞게 메서드등 요소를 변경하고 컨트롤할수있어서 객체지향의 이점
+>  많이쓰면 안좋음
+>
+> 이경우엔 StringBuffer를 사용
+
+String은 Object의 equals를 내부적으로 재정의했다.
+
+> 문자열을 비교하도록 재정의함.
+
+같은 문자열을 바라보는 인스턴스는 모두 같은 주소지를 참조하게된다.
+
+> ~~~java
+> String str = "12";
+> String str2 = "12";
+> ~~~
+>
+> "12"라는 문자열이 저장된 주소를 str,str2가 동시에 바라보게 된다.
+
+문자열을 다루는 메서드들을 제공한다.
+
+> split , join ,parseInt 등
 
 
 
+## StringBuffer Class
 
+String 클래스는 생성된 인스턴스의 지정된 문자열을 변경할수없지만 StringBuffer 는 변경할수있다.
+
+> append delete insert와 같은 문자열 변경 메서드를 지원한다.
+
+내부적으로 버퍼를 가지고 있기 때문에 문자열 내용을 변경할수있지만 버퍼의 크기를 정해줘야하고
+
+크기가 초과하면 늘려야하는 비용이 발생한다.
+
+
+
+StringBuffer 는 String 과 달리` equals를 재정의 하지 않아`서 주소지를 비교한다.
+
+> 반면에 toString은 재정의 되어있기 때문에
+>
+> `비교를 원한다면` StringBuffer 를 toString을 사용해서 내용을 String으로 변환한 다음에 String의 equals를 사용하면 된다. 
+
+
+
+StringBuffer 에서 `멀티쓰래드 동기화`기능을 뺀 StringBuilder라는 클래스도 존재한다.
+
+
+
+## Math
+
+수학계산에 유용한 메서드들을 지원한다.
+
+
+
+## Wrapper
+
+객체 지향 개념에서 모든것은 객체로 다뤄져야한다.
+
+때로는 원시타입(int,float,double 등)을 객체(참조타입)로 다뤄야하는 경우가 있다.
+
+> Collection, 객체간 비교 등
+
+이때 사용하는 클래스가 Wrapper 클래스이다.
+
+래퍼 클래스는 객체 생성시에 생성자의 인자로 주어진 원시타입을 내부적으로 저장한다.
+
+이들은 내부적으로 equals, toString, compareTo 등 Object 클래스 메서드들을 재정의 하고있다.
+
+> equals는 주소가 아닌 내부 값으로 비교하도록 재정의 되어있다.
 
 
 
@@ -189,9 +266,127 @@ Class class 동적생성
 
 
 
+# [자바 정복 시리즈] java.util 패키지
+
+---
+
++ **Objects, Random, 정규식 ,StringTokenizer 등의  실무에서 활용할만한 클래스들이 존재한다.**
 
 
 
+## Objects
+
+java.lang의 Object 클래스를 보조하는 클래스로 모든 메서드가 static 이다.
+
+주로 `null check에 유용한 메서드들을 제공`한다.
+
+대부분의 메서드들이 null check을 구현하고있다.
+
+| Modifier and Type | Method                                                     | Description                                                  |
+| :---------------- | :--------------------------------------------------------- | :----------------------------------------------------------- |
+| `static int`      | `checkFromIndexSize(int fromIndex, int size, int length)`  | Checks if the sub-range from `fromIndex` (inclusive) to `fromIndex + size` (exclusive) is within the bounds of range from `0` (inclusive) to `length` (exclusive). |
+| `static int`      | `checkFromToIndex(int fromIndex, int toIndex, int length)` | Checks if the sub-range from `fromIndex` (inclusive) to `toIndex` (exclusive) is within the bounds of range from `0` (inclusive) to `length` (exclusive). |
+| `static int`      | `checkIndex(int index, int length)`                        | Checks if the `index` is within the bounds of the range from `0` (inclusive) to `length` (exclusive). |
+| `static <T> int`  | `compare(T a, T b, Comparator<? super T> c)`               | Returns 0 if the arguments are identical and `c.compare(a, b)` otherwise. |
+| `static boolean`  | **`deepEquals(Object a, Object b)`**                       | Returns `true` if the arguments are deeply equal to each other and `false` otherwise. |
+| `static boolean`  | **`equals(Object a, Object b)`**                           | Returns `true` if the arguments are equal to each other and `false` otherwise. |
+| `static int`      | **`hash(Object... values)`**                               | Generates a hash code for a sequence of input values.        |
+| `static int`      | **`hashCode(Object o)`**                                   | Returns the hash code of a non-`null` argument and 0 for a `null` argument. |
+| `static boolean`  | **`isNull(Object obj)`**                                   | Returns `true` if the provided reference is `null` otherwise returns `false`. |
+| `static boolean`  | **`nonNull(Object obj)`**                                  | Returns `true` if the provided reference is non-`null` otherwise returns `false`. |
+| `static <T> T`    | `requireNonNull(T obj)`                                    | Checks that the specified object reference is not `null`.    |
+| `static <T> T`    | `requireNonNull(T obj, String message)`                    | Checks that the specified object reference is not `null` and throws a customized [`NullPointerException`](https://docs.oracle.com/javase/10/docs/api/java/lang/NullPointerException.html) if it is. |
+
+
+
+~~~java
+public void setName(String name){
+    if(name == null)
+        new NullPointerException("npe");
+    else
+    this.name = name;
+}
+~~~
+
+위와 같은 기본에 null check 코드들을 Objects 메서들를 이용해 간단히 끝낼수있다.
+
+~~~java
+public void setName(String name){
+    this.name = Objects.requireNonNull(name,"npe x"); 
+}
+~~~
+
+
+
+대소 비교를 위한 compare도 추가되었다.
+
+
+
+Objects equals는 Object equals를 재정의해서 내부적으로 null check를 시행한다.
+
+~~~java
+if(a!=null && a.equals(b))
+    //do
+
+if(Objects.equals(a,b)) //null check이 필요없다, 내부적으로 구현되어있음
+    //do
+~~~
+
+
+
+나머지 hash,deepEquals도 마찮가지로 null check을 알아서 해준다.
+
+
+
+즉, Objects 클래스는 Object 클래스의 메서드들을 null check을 내부적으로 구현하여 재정의 한것이다.
+
+> compare 같은 본인만의 메서드도 존재한다. document를 살펴보자.
+
+npe 처리에 대한 코드를 직접 작성하지 않아도 된다는 장점이 있다.
+
+
+
+## Random
+
+Math.random() 말고도 난수를 얻을수있다.
+
+난수를 얻기위한 메서드들을 제공한다.
+
+
+
+## 정규식
+
+정규식이란 텍스트 데이터 중에서 원하는 조건에 일치하는 문자열을 찾아 내기 위해 사용하는 것으로 미리 정의된 기호와 문자를 이용해서 작성한 문자열을 말한다.
+
+자바 뿐 아니라 다양한 언어에서 지원한다.
+
+~~~
+java.util.regex.Pattern
+~~~
+
+을 찾아보면 정규식에 사용되는 작성법이 정리되어있다.
+
+
+
+특정 형식이나 패턴을 보유하는 문자열을들 찾아내는데 적합하다.
+
+~~~
+이메일 형식을 띄는 문자열들을 추출
+특정 단어로 시작하는 문자열들을 추출
+등등
+~~~
+
+
+
+## StringTokenizer
+
+문자를 구분자를 이용해 나누는 기능을 제공한다.
+
+> 토큰으로 나누고 반복자 같은 메서드를 제공하기때문에 사용하기 편하다.
+
+String의 split보다 더 직관적이다.
+
+하지만 `구분자를 1개만 적용`할수있기 때문에 여러가지 구분자를 사용해야 하는경우엔 `정규식`을 사용해야한다.
 
 
 

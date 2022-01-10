@@ -1,18 +1,23 @@
-import java.util.*;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
-public class main {
-
-    public static void main(String[] args) {
-
-
-        Integer[] arr = {1,3,4,2};
-
-        Set<Integer> set = new TreeSet<>(arr);
-
-
-        String
-
+class Solution_Hash {
+    public String solution(String[] participant, String[] completion) {
+        String answer = "";
+        HashMap<String, Integer> map = new HashMap<>();
+        for (String player : participant) map.put(player, map.getOrDefault(player, 0) + 1);
+        for (String player : completion) map.put(player, map.get(player) - 1);
+        Iterator<Map.Entry<String, Integer>> iter = map.entrySet().iterator();
+        while (iter.hasNext()) {
+            Map.Entry<String, Integer> entry = iter.next();
+            if (entry.getValue() != 0) {
+                answer = entry.getKey();
+                break;
+            }
+        }
+        return answer;
     }
 
-
 }
+

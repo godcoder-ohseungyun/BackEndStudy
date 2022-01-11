@@ -1,12 +1,6 @@
-# [자바 정복 시리즈] 객체지향
 
----
 
- 자바가 객체로 다 만드는 이유? 
 
-String은 자바에서는 객체타입이다.
-
-각 객체에 맞게 메서드등 요소를 변경하고 컨트롤할수있어서 객체지향의 이점
 
 
 
@@ -240,7 +234,7 @@ StringBuffer 에서 `멀티쓰래드 동기화`기능을 뺀 StringBuilder라는
 
 이때 사용하는 클래스가 Wrapper 클래스이다.
 
-래퍼 클래스는 객체 생성시에 생성자의 인자로 주어진 원시타입을 내부적으로 저장한다.
+래퍼 클래스는 객체 생성시에 원시타입을 내부적으로 저장한다.
 
 이들은 내부적으로 equals, toString, compareTo 등 Object 클래스 메서드들을 재정의 하고있다.
 
@@ -714,12 +708,12 @@ Comparator & Comparable는  Integer와 같은 Wrapper 클래스나 String,Date �
 >     //..
 >     
 >   	public int compareTo(Integer anotherInteger) {
->     	return compare(this.value, anotherInteger.value);
+>     		return compare(this.value, anotherInteger.value);
 > 	}
 > 
->     public static int compare(int x, int y) {
->         return (x < y) ? -1 : ((x == y) ? 0 : 1);
->     }  
+>        public static int compare(int x, int y) {
+>         	return (x < y) ? -1 : ((x == y) ? 0 : 1);
+>        }  
 > }
 > ~~~
 

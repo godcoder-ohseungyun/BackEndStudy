@@ -1,4 +1,4 @@
-# [Spring] API 예외처리
+# [API 예외처리] API 예외처리 
 
 ---
 
@@ -6,7 +6,11 @@
 
 > 상태코드에 따라 /error 에 등록한 html을 보여주기만 하면 됨
 
+
+
 ***하지만 API 예외는 고려해야하는 내용이 더 많다.***
+
+
 
 고객에게 보여주는 화면이 아니라 정확한 데이터를 다뤄야한다.
 
@@ -36,7 +40,7 @@ public Member getMember(@PathVariable("id") String id) {
 
 이 경우 정상적인  경우는 문제가 없지만 
 
-예외가 발생한 경우 500상태 코드와 함께 예외가 WAS까지 전파되어  이전에 만든 예외 페이지가 View가 반환된다. (즉, HTML이 반환된것)
+예외가 발생한 경우 500상태 코드와 함께 예외가 WAS까지 전파되어  이전에 만든 예외 페이지 View가 반환된다. (즉, HTML이 반환된것)
 
 ~~~
 1. WAS(여기까지 전파) <- 필터 <- 서블릿 <- 인터셉터 <- 컨트롤러(예외발생:throw new RuntimeException)
@@ -49,12 +53,16 @@ public Member getMember(@PathVariable("id") String id) {
 
 이전에 설명했듯이 예외 페이지를 적용했다면 아래와 같은 과정을 통해 View가 반환 되었을 것
 
+
+
+**WAS 예외 처리 과정**
+
 ~~~
 1. WAS(여기까지 전파) <- 필터 <- 서블릿 <- 인터셉터 <- 컨트롤러(예외발생: throw new RuntimeException)
 
 2. WAS 예외 페이지 정보 확인
 
-3. WAS (`/error-page/500` 다시 요청) -> 필터 -> 서블릿 -> 인터셉터 -> *컨트롤러(/errorpage/500)
+3. WAS (`/error-page/500` 내부 요청) -> 필터 -> 서블릿 -> 인터셉터 -> *컨트롤러(/errorpage/500)
 -> View
 ~~~
 
@@ -62,15 +70,19 @@ public Member getMember(@PathVariable("id") String id) {
 
 
 
-하지만 브라우저를 제외 하고  HTML을 해석할수있는 경우가 많지 않다.
+하지만 브라우저를 제외 하고  `HTML을 해석할수있는 경우가 많지 않다`.
 
 > 서버는  모바일 등 브라우저가 아닌 다양한 기기로부터 요청을 받을 수 있다.
 
-그렇기 때문에 JSON 으로 데이터를 반환해 응답해야 하는데, 오류발생의 경우 Html오류 페이지가 나와버린다.
+
+
+그렇기 때문에 `JSON` 으로 데이터를 반환해 응답해야 하는데, 오류발생의 경우 HTML오류 페이지가 나와버린다.
 
 이건 원하는 바가 아니다.
 
-오류 페이지 컨트롤러를 확장해서 요청 HTTP Header의 Accept 의 값이 application/json 일 때 html 오류 페이지 대신에 json으로 반환 하도록 할수있다.
+
+
+우리는 오류 페이지 컨트롤러를 확장해서 요청 HTTP Header의 Accept 의 값이 application/json 일 때 html 오류 페이지 대신에 json으로 반환 하도록 할수있다.
 
 
 
@@ -80,19 +92,27 @@ public Member getMember(@PathVariable("id") String id) {
 
 
 
-## 스프링 부트 API 오류 처리
+
+
+# [API 예외처리] 스프링 부트 API 오류 처리
 
 ---
 
 이전에 학습했던 스프링 제공 예외 페이지 컨트롤러 **BasicErrorController에 들어가 보면** /error 동일한 경로를 처리하는 errorHtml() , error() **두 메서드를 확인할 수 있다.**
 
-> 이전 포스트 꼭 파악하기
+> 내부 요청을 매핑하는 스프링 부트 기본 제공 컨트롤러
+
+
 
 요청에 따라 하나는 html을 반환하고 하나는 json을 반환한다.
+
+> 스프링 부트가 이미 JSON으로 데이터를 반환해야하는 경우도 구현해 놓은것이다.
 
 
 
 **errorHtml() :** 클라이언트 요청의 Accept 해더 값이 text/html 인 경우에는 errorHtml() 을 호출해서 view를 제공한다.
+
+
 
 **error() :** 그외 경우에 호출되고 ResponseEntity 로 HTTP Body에 <u>JSON 데이터를 반환한다.</u>
 
@@ -100,15 +120,15 @@ public Member getMember(@PathVariable("id") String id) {
 >
 > ~~~
 > {
->  "timestamp": "2021-04-28T00:00:00.000+00:00",
->  "status": 500,
->  "error": "Internal Server Error",
->  "exception": "java.lang.RuntimeException",
->  "trace": "java.lang.RuntimeException: 잘못된 사용자\n\tat 
+> "timestamp": "2021-04-28T00:00:00.000+00:00",
+> "status": 500,
+> "error": "Internal Server Error",
+> "exception": "java.lang.RuntimeException",
+> "trace": "java.lang.RuntimeException: 잘못된 사용자\n\tat 
 > hello.exception.web.api.ApiExceptionController.getMember(ApiExceptionController
 > .java:19...,
->  "message": "잘못된 사용자",
->  "path": "/api/members/ex"
+> "message": "잘못된 사용자",
+> "path": "/api/members/ex"
 > }
 > ~~~
 
@@ -124,7 +144,9 @@ BasicErrorController 는 HTML 페이지를 제공하는 경우에는 매우 편�
 
 > /error 경로에 매핑한 html을 보여주기만 하면 되기때문
 
-그런데 **API 오류 처리는 다른 차원의 이야기이다**. API 마다, **각각의 컨트롤러나** 예외마다 **서로 다른 응답 결과를 출력해야 할 수도 있다.** 
+
+
+그런데 **API 오류 처리는 다른 차원의 이야기이다**. API 마다, **각각의 컨트롤러나** `예외마다` **서로 다른 응답 결과를 출력해야 할 수도 있다.** 
 
 > 단순히 오류관련 정보나 페이지를 반환하는게 아니라 API에 따라서 각기 다른 JSON 데이터를 반환해야한다.
 
@@ -138,7 +160,9 @@ BasicErrorController 는 HTML 페이지를 제공하는 경우에는 매우 편�
 
 
 
-## HandlerExceptionResolver (aka. ExceptionResolver)
+
+
+##  HandlerExceptionResolver (aka. ExceptionResolver)
 
 ---
 
@@ -160,21 +184,41 @@ BasicErrorController는 오류페이지 컨트롤러로 다음과 같은 동작 
 
 ### **스프링은 이를 해결하고자 HandlerExceptionResolver 줄여서 ExceptionResolver를 도입했다.**
 
-![image-20211228201047564](C:\Users\afrad\AppData\Roaming\Typora\typora-user-images\image-20211228201047564.png)
+
+
+
+
+**ExceptionResolver 적용 전후 동작 비교**
+
+![image-20211228201047564](C:\Users\afrad\OneDrive\바탕 화면\image-20211228201047564.png)
 
 기존에는 예외가 발생하면 WAS까지 예외가 전달 되었지만
 
-![image-20211228200858914](C:\Users\afrad\AppData\Roaming\Typora\typora-user-images\image-20211228200858914.png)
+![image-20211228200858914](C:\Users\afrad\OneDrive\바탕 화면\image-20211228200858914.png)
 
 ExceptionResolver를 적용하면 디스패쳐 서블릿이 예외를 WAS로 던지지 않고  ExceptionResolver에게 예외를 해결하도록 한다.
 
-즉, **예외를 중간에서 받아서 처리하고 WAS에겐 정상흐름처럼 보이도록 할수있다.**
-
-> 예외가 WAS까지 올라가지 않는다.
-
-또한 API 데이터 , 뷰 템플릿 , 예외 상태코드 변환 등을 자유롭게 적용할수있어서 WAS까지 예외를 보내지않고 예외를 이곳에서 모두 처리할 수 있다는 것이 핵심이다.
 
 
+### [핵심!]
+
+**즉, WAS까지 예외가 전달되던 기존과 달리 ExceptionResolver로 예외를 중간에서 받아서 처리하고 WAS에겐 정상흐름을 반환 함으로써  예외를 정상처리 된것으로 만드는것이 목적이다.**
+
+> 예외가 WAS까지 올라가지 않는다. 
+>
+> WAS까지 예외를 보내지않고 예외를 이곳에서 모두 처리할 수 있다는 것
+>
+> WAS는 예외 발생 여부를 모른다.
+
+
+
+**또한, API 데이터 , 뷰 템플릿 , 상태코드 변환 등을 자유롭게 적용할수있어서 디테일한 응답을 생성할수있다.**
+
+> Controller처럼 HTML,JSON,responseEntity<T> 등 모두 반환할수있다.
+
+
+
+**직접 ExceptionResolver 구현하기**
 
 ExceptionResolver 클래스를 정의해서 예외 처리 로직을 짜고 ,WebConfig에 등록해서 사용한다.
 
@@ -195,17 +239,29 @@ ExceptionResolver 클래스를 정의해서 예외 처리 로직을 짜고 ,WebC
 
 
 
-## **스프링 부트가 기본으로 제공하는 HandlerExceptionResolver (aka. ExceptionResolver)**
+
+
+
+
+
+
+
+
+## [API  예외처리] **스프링 부트가 기본으로 제공하는 HandlerExceptionResolver (aka. ExceptionResolver)**
 
 ----
 
 **직접 ExceptionResolver 를 구현하려고 하니 상당히 복잡하다.** 
 
-스프링 부트는 기본으로 ExceptionResolver를 제공한다. 
+
+
+**스프링 부트는 기본으로 ExceptionResolver를 제공한다.** 
 
 > 3가지 ExceptionResolver를 제공한다.
 
-**우선 순위**
+
+
+**3가지 ExceptionResolver의 우선 순위**
 
 ~~~python
 1. ExceptionHandlerExceptionResolver # @ExceptionHandler 을 처리한다. API 예외 처리는 대부분 이 기능으로 해결한다.
@@ -217,11 +273,11 @@ ExceptionResolver 클래스를 정의해서 예외 처리 로직을 짜고 ,WebC
 
 
 
-ExceptionHandlerExceptionResolver는 매우 중요함으로 다음 포스트에서 자세하게 설명한다.
+*ExceptionHandlerExceptionResolver* 는 제일 마지막에 설명하겠다.
 
 
 
-**2. ResponseStatusExceptionResolver** 
+**ResponseStatusExceptionResolver** 
 
 > + **ResponseStatusExceptionResolver 는 예외에 따라서 HTTP 상태 코드를 지정해주는 역할을 한다**
 > + `@ResponseStatus 가 달려있는 예외` 또는 `ResponseStatusException 예외`의 경우 상태코드를 원하는 것으로 변경해주고 해당 상태코드로 response.sendError() 를 발생시켜주는 리졸버이다.
@@ -254,23 +310,9 @@ ExceptionHandlerExceptionResolver는 매우 중요함으로 다음 포스트에�
 
 
 
-**3. DefaultHandlerExceptionResolver**
+**DefaultHandlerExceptionResolver**
 
 > 스프링 내부 예외를 알아서 처리해주는 리졸버
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -281,7 +323,10 @@ ExceptionHandlerExceptionResolver는 매우 중요함으로 다음 포스트에�
 ---
 
 + 스프링 초보자들은 바로 이 개념만 알면 예외처리 기능을 사용할수있다.
-+ 깊은 이해를 위해서는 이전 포스트를 참고해야한다.
+
++ 이전 포스트에서 `스프링 부트가 기본으로 제공하는 3가지 HandlerExceptionResolver중 가장 중요한 리졸버`라고 설명했었다.
+
+  
 
 
 
@@ -293,11 +338,15 @@ Json이 아닌 Html로 돌려줘도 되는경우  오류가 발생하면 스프�
 
 >  5xx, 4xx 관련된 오류 페이지를 보여주면 된다.
 
+
+
 **2. API 예외처리하는 경우**
 
 Json으로 돌려줘야하는 API 예외처리의 경우  예외에 따라서 각각 다른 데이터를 출력해야 할 수도 있다. 그리고 같은 예외라고 해도 어떤 컨트롤러에서 발생했는가에 따라서 다른 예외 응답을 내려주어야 할 수 있다
 
 > 즉 세밀한 제어가 필요하다.
+
+
 
 **BasicErrorController**도 Json 처리를 지원하는 메서드가 있지만 세밀한 제어를 하기엔 기능이 부족하다.
 
@@ -305,7 +354,9 @@ Json으로 돌려줘야하는 API 예외처리의 경우  예외에 따라서 �
 
 > 비유하자면 스프링의 편리함없이 서블릿으로 WAS를 하나하나 만드는것 같다.
 
-즉, BasicErrorController와 HandlerExceptionResolver 둘다 사용하기 번거롭다.
+
+
+*즉, BasicErrorController와 HandlerExceptionResolver 둘다 사용하기 번거롭다.*
 
 
 
@@ -323,22 +374,24 @@ Json으로 돌려줘야하는 API 예외처리의 경우  예외에 따라서 �
 @ExceptionHandler 애노테이션을 선언하고, 해당 컨트롤러에서 처리하고 싶은 예외를 지정해주면 된다. 
 해당 컨트롤러에서 예외가 발생하면 이 메서드가 호출된다. 
 
-> 참고로 지정한 예외 또는 그 예외의 자식 클래스는 모두 잡을 수 있다.
+> 지정한 예외 또는 그 예외의 자식 클래스는 모두 잡을 수 있다.
 >
 > 우선순위는 항상 자세한것부터 임으로 자식 예외가 있다면 자식먼저 실행된다.
+
+
 
 ~~~java
 @Controller
 public class APItest{
     
-    //등록
+    //ExceptionHandler=======================================================================
     @ResponseStatus(HttpStatus.BAD_REQUEST) //상태코드도 변경 가능
     @ExceptionHandler(IllegalArgumentException.class) //IllegalArgumentException예외에 적용
     public ErrorResult illegalExHandle(IllegalArgumentException e) {
         log.error("[exceptionHandle] ex", e); 
-        return new ErrorResult("BAD", e.getMessage());
+        return new ErrorResult("BAD", e.getMessage()); //일반 컨트롤러처럼 다양한 반환을 가질수있다. responseEntitiy,json,html 등
     }
-
+    //======================================================================================
 
     @GetMapping("/api2/members/{id}")
     public MemberDto getMember(@PathVariable("id") String id) {
@@ -348,21 +401,22 @@ public class APItest{
 }
 ~~~
 
-> 컨트롤러 내부에서 IllegalArgumentException가 발생하면 illegalExHandle이 실행되어 처리한다.
+> **컨트롤러 내부에서 매핑 메서드 getMember에서  IllegalArgumentException가 발생하면 ExceptionHandler메서드 illegalExHandle이 실행되어 해당 예외를 처리한다.**
 >
 > 
 >
 > **ResponseStatus를 사용**
 >
-> 이전 포스트에서 배운 ResponseStatusExceptionResolver의 @ResponseStatus를 이용해서 상태코드를 변경할수있다.
+> ResponseStatusExceptionResolver의 @ResponseStatus를 이용해서 함께 반환할 상태코드를 변경할수있다. 
 >
-> ---------정확한 수정 필요-----
+
+
 
 
 
 **실행 흐름**
 
-![image-20211228200858914](C:\Users\afrad\AppData\Roaming\Typora\typora-user-images\image-20211228200858914.png)
+![image-20211228200858914](C:\Users\afrad\OneDrive\바탕 화면\image-20211228200858914.png)
 
 ~~~~
 1. 컨트롤러를 호출한 결과 IllegalArgumentException 예외가 컨트롤러 밖으로 던져진다.
@@ -376,11 +430,11 @@ public class APItest{
 5. @ResponseStatus(HttpStatus.BAD_REQUEST) 를 지정했으므로 HTTP 상태 코드 400으로 응답한다.
 ~~~~
 
-> 4. 번에서 응답이 Json으로 반환한다고했는데 실제로는 컨트롤러처럼 다양한 반환을 가질수있다. (뷰도 가능)
+> **[중요]** 4번에서 응답이 Json으로 반환한다고했는데 실제로 컨트롤러처럼 다양한 반환을 가질수있다. (HTML,JSON 모두 가능)
 
 
 
-ExceptionHandler 즉, ResponseStatusExceptionResolver의 목적은 WAS까지 예외를 던지지 않고 대신 처리한후 정상흐름으로 바꿔버리는 것이다. 
+ExceptionHandler 즉, ResponseStatusExceptionResolver의 `목적은` WAS까지 예외를 던지지 않고 대신 처리한후 `정상흐름으로 바꿔버리는 것`이다. 
 
 >  상태코드 200 OK 이 된다.
 >
@@ -396,7 +450,7 @@ ExceptionHandler 즉, ResponseStatusExceptionResolver의 목적은 WAS까지 예
 
 **아쉬운 점**
 
-ExceptionHandler 코드가 해당 컨트롤러에 같이 섞여있어 핵심로직과 함께 있다는 것이다. 
+위 코드를 보면 ExceptionHandler 코드가 해당 컨트롤러에 같이 섞여있어 핵심로직과 함께 있다는 것이다. 
 
 클래스를 분리하고 @ControllerAdvice 또는 @RestControllerAdvice 를 사용하면 따로 분리할수있다.
 

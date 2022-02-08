@@ -20,6 +20,8 @@
 
 ## 쓰래드 로컬
 
++ **로그추적기에 관한 자세한 설계는 영상 참고 - 예제 ~ 쓰래드로컬**
+
 ~~~
 private ThreadLocal<TraceId> traceIdHolder = new ThreadLocal<>();
 ~~~

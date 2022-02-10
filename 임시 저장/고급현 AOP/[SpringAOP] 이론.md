@@ -1,4 +1,6 @@
-# Spring AOP
+
+
+# [Spring AOP 이론]  스프링 AOP
 
 ---
 
@@ -65,9 +67,7 @@
 
 > **애스펙트는** 우리말로 해석하면 관점이라는 뜻인데, 이름 그대로 **애플리케이션을 바라보는 관점을 하나하나의 기능에서 횡단 관심사(cross-cutting concerns) 관점으로 달리 보는 것**이다.
 >
-> 
->
-> ![image-20220209125006947](C:\Users\afrad\AppData\Roaming\Typora\typora-user-images\image-20220209125006947.png)
+> ![image-20220209125006947](C:\Users\afrad\OneDrive\바탕 화면\image-20220209125006947.png)
 
 
 
@@ -75,7 +75,7 @@
 
 > 횡단 관심사를 **한곳에서 관리**하고 **필요한 부분에 적용** 할 수 있다.
 >
-> ![image-20220209125109303](C:\Users\afrad\AppData\Roaming\Typora\typora-user-images\image-20220209125109303.png)
+> ![image-20220209125109303](C:\Users\afrad\OneDrive\바탕 화면\image-20220209125109303.png)
 
 
 
@@ -149,15 +149,15 @@ AspectJ 프레임워크는 스스로를 다음과 같이 설명한다.
 >
 > **스프링만 있으면 얼마든지 AOP를 적용할 수있다!**
 >
-> ![image-20220208152240825](C:\Users\afrad\AppData\Roaming\Typora\typora-user-images\image-20220208152240825.png)
+> ![image-20220208152240825](C:\Users\afrad\OneDrive\바탕 화면\image-20220208152240825.png)
 >
 > **부가 기능이 정의된 프록시를 동적으로 생성하고 빈 후처리기를 통해 프록시 객체를 빈으로 바꿔 등록함으로써 구현된다.**
 >
 > 
 >
-> ### 스프링은 이 방법을 이용해서 AOP를 구현한다.
+> ### [핵심!]스프링은 이 방법을 이용해서 AOP를 구현한다.
 >
-> > 이제껏 정리했던 방식
+> > 스프링 AOP
 
 
 
@@ -191,7 +191,7 @@ AspectJ 프레임워크는 스스로를 다음과 같이 설명한다.
 
 
 
-## AOP 용어 정리
+##  AOP 용어 정리
 
 > 스프링 AOP를 알아보기 전에 AOP에서 쓰이는 용어들의 개념을 정리해야한다.
 >
@@ -567,7 +567,7 @@ bean : 스프링 전용 포인트컷 지시자, 빈의 이름으로 포인트컷
 
 
 
-### execution 문법
+## execution 문법
 
 포인트컷을 지정할때 사용되는 AspectJ 표현식 문법을 알아보자.
 

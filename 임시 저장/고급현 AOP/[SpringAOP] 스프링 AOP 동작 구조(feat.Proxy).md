@@ -1,8 +1,10 @@
 
 
+# 
 
 
-# 스프링 프록시 사용(feat.로그추적기)
+
+# [스프링 AOP 동작 원리] 스프링에서  프록시 사용(feat.로그추적기)
 
 ---
 
@@ -38,7 +40,7 @@ ThreadLocal을 사용해서 동시성 문제를 해결할수있다.
 
 > ThreadLocal을 사용해서 각 쓰래드별로 메모리저장소를 따로 지정해서 사용하도록 할수있다.
 >
-> ![image-20220207135306009](C:\Users\afrad\AppData\Roaming\Typora\typora-user-images\image-20220207135306009.png)
+> ![image-20220207135306009](C:\Users\afrad\OneDrive\바탕 화면\image-20220207135306009.png)
 >
 > 쓰래드 풀을 사용하는경우.  반드시 사용후 파기해야한다.
 >
@@ -50,7 +52,7 @@ ThreadLocal을 사용해서 동시성 문제를 해결할수있다.
 
 
 
-## 프록시
+## 프록시를 이용해 완전한 서브로직 분리
 
 로그를 찍기위한 코드를 컨트롤러에 추가한 모습이다.
 
@@ -111,7 +113,7 @@ public class OrderControllerV3 {
 
 이 과정에서 `프록시에 로그를 찍는 서브 코드를 추가`하면 본 객체의 `핵심로직과 서브로직을 분리` 할 수 있다.
 
-![image-20220207121250016](C:\Users\afrad\AppData\Roaming\Typora\typora-user-images\image-20220207121250016.png)
+![image-20220207121250016](C:\Users\afrad\OneDrive\바탕 화면\image-20220207121250016.png)
 
 
 
@@ -131,7 +133,15 @@ public class OrderControllerV3 {
 
 
 
-## 동적 프록시
+
+
+# [스프링 AOP 동작 원리] 동적 프록시
+
+---
+
+본 객체의 수 만큼 프록시 객체를 정의해야하는 문제를 해결해보자. 
+
+
 
 *** 동적 프록시를 이해하기 위해서는 먼저 `자바의 리플렉션 기술`을 이해해야 한다**
 
@@ -191,13 +201,13 @@ CGLIB는 바이트코드를 조작해서 동적으로 클래스를 생성하는 
 
 
 
+# [스프링 AOP 동작 원리] 프록시 팩토리
 
-
-## 프록시 팩토리
+----
 
 개발자가 일일이 인터페이스가 있는 경우에는 JDK 동적 프록시를 적용하고, 그렇지 않은 경우에는 CGLIB를 적용해야 했던 문제를 해결하고 `프록시팩토리` 하나로 편리하게 동적 프록시를 생성할 수 있다.
 
-![image-20220206142706295](C:\Users\afrad\AppData\Roaming\Typora\typora-user-images\image-20220206142706295.png)
+![image-20220206142706295](C:\Users\afrad\OneDrive\바탕 화면\image-20220206142706295.png)
 
 
 
@@ -243,7 +253,7 @@ Advisor는 어디( Pointcut )에 부가기능( Advice )을 해야할지 할지 �
 
 **프록시 팩토리 동작구조**
 
-![image-20220207132310944](C:\Users\afrad\AppData\Roaming\Typora\typora-user-images\image-20220207132310944.png)
+![image-20220207132310944](C:\Users\afrad\OneDrive\바탕 화면\image-20220207132310944.png)
 
 
 
@@ -324,13 +334,13 @@ proxy.find();
 
 
 
-`빈 후처리기`를 사용하면 이를 해결 할 수 있다.
+**`빈 후처리기`를 사용하면 이를 해결 할 수 있다.**
 
 
 
+# [스프링 AOP 동작 원리] 빈 후처리기(feat.스프링이 제공하는 빈 후처리기)
 
-
-## 빈 후처리기
+---
 
 간단하게 표현해서 빈 등록과정을 조작하는 것이다.
 

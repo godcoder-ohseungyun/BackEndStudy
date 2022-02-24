@@ -86,6 +86,13 @@ public class Person {
 **서버1역할 **
 
 ~~~java
+RestTemplate restTemplate;
+
+@Autowired
+private RestTemplateController(RestTemplate restTemplate){
+    this.restTemplate = restTemplate;
+}
+
 @ResponseBody
 @GetMapping("/restTemplateTest")
 public Person restTempateTestMethod()
